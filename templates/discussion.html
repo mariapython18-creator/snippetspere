@@ -1,0 +1,127 @@
+{% include 'navbar.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container my-5">
+    <div class="card mb-4 p-3 shadow-sm">
+        <h3>{{ request_obj.project_title }}</h3>
+        <p><strong>Description:</strong> {{ request_obj.project_description }}</p>
+        <p><strong>Looking for:</strong> {{ request_obj.looking_for }}</p>
+        <p><strong>Required Skills:</strong> {{ request_obj.required_skills }}</p>
+        <p><strong>Type:</strong> {{ request_obj.collaboration_type }}</p>
+        <p><strong>Timeline:</strong> {{ request_obj.estimated_timeline }}</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="card p-3 shadow-sm">
+                <h5>Comments</h5>
+                <div class="messages" id="comment-messages" style="height:300px; overflow-y:auto;">
+                    {% for msg in messages %}
+                        {% if msg.message_type == 'comment' %}
+                            <p><strong>{{ msg.sender.username }}:</strong> {{ msg.content }}</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <textarea id="comment-input" class="form-control mt-2" placeholder="Type a comment"></textarea>
+                <div id="comment-error" class="text-danger mt-1" style="display:none;"></div>
+                <button class="btn btn-primary mt-2 w-100" onclick="sendMessage('comment')">Send</button>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card p-3 shadow-sm">
+                <h5>Suggestions</h5>
+                <div class="messages" id="suggestion-messages" style="height:300px; overflow-y:auto;">
+                    {% for msg in messages %}
+                        {% if msg.message_type == 'suggestion' %}
+                            <p><strong>{{ msg.sender.username }}:</strong> {{ msg.content }}</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <textarea id="suggestion-input" class="form-control mt-2" placeholder="Type a suggestion"></textarea>
+                <div id="suggestion-error" class="text-danger mt-1" style="display:none;"></div>
+                <button class="btn btn-success mt-2 w-100" onclick="sendMessage('suggestion')">Send</button>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card p-3 shadow-sm">
+                <h5>Code Snippets</h5>
+                <div class="messages" id="code-messages" style="height:300px; overflow-y:auto;">
+                    {% for msg in messages %}
+                        {% if msg.message_type == 'code' %}
+                            <pre><strong>{{ msg.sender.username }}:</strong> {{ msg.content }}</pre>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <textarea id="code-input" class="form-control mt-2" placeholder="Type code"></textarea>
+                <div id="code-error" class="text-danger mt-1" style="display:none;"></div>
+                <button class="btn btn-warning mt-2 w-100" onclick="sendMessage('code')">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+function sendMessage(type) {
+    const inputEl = document.getElementById(`${type}-input`);
+    const messagesDiv = document.getElementById(`${type}-messages`);
+    const errorDiv = document.getElementById(`${type}-error`);
+    const content = inputEl.value.trim();
+
+    errorDiv.style.display = 'none';
+    errorDiv.innerText = '';
+
+    if (!content) {
+        errorDiv.innerText = "Message cannot be empty";
+        errorDiv.style.display = 'block';
+        return;
+    }
+
+    fetch("{% url 'collaborate:discussion' id=request_obj.id %}", {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrftoken,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `message_type=${type}&content=${encodeURIComponent(content)}`
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            errorDiv.innerText = data.error;
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        const newMsg = document.createElement('div');
+        if (type === 'code') {
+            newMsg.innerHTML = `<pre><strong>${data.sender}:</strong> ${data.content}</pre>`;
+        } else {
+            newMsg.innerHTML = `<strong>${data.sender}:</strong> ${data.content}`;
+        }
+        messagesDiv.appendChild(newMsg);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        inputEl.value = '';
+    })
+    .catch(err => console.error('Error:', err));
+}
+</script>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% include 'navbar.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!-- Full-width container -->
+<div class="container-fluid my-5 px-3">
+    <div class="p-4 shadow rounded w-100 bg-white">
+
+        <!-- Heading -->
+        <h3 class="text-center mb-4">Answer Here</h3>
+
+        <!-- Question Card -->
+        <div class="card mb-4 p-3 shadow-sm bg-light">
+
+            <p class="mb-1"><strong>{{ question.Question }}</strong></p>
+        </div>
+
+        <!-- Form -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary w-100 mt-3">Submit</button>
+        </form>
+
+    </div>
+</div>
+
+<!-- Optional: Bootstrap JS if not already included in base.html -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}

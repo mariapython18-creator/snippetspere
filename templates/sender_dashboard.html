@@ -1,0 +1,38 @@
+{% include 'navbar.html' %}
+{% load static %}
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4 text-center">Collaboration Projects</h2>
+    {% if collaboration_requests %}
+        <div class="row g-4">
+            {% for request in collaboration_requests %}
+            <div class="col-lg-6 col-md-12">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body d-flex flex-column">
+                        <!-- Project Header -->
+                        <h5>{{ request.project_title }}</h5>
+                        <!-- Project Details -->
+                        <p class="card-text">{{ request.project_description|truncatechars:120 }}</p>
+                        <p><strong>Looking for:</strong> {{ request.looking_for }}</p>
+                        <p><strong>Required Skills:</strong> {{ request.required_skills }}</p>
+                        <p><strong>Collaboration Type:</strong> {{ request.collaboration_type }}</p>
+                        <div class="mt-auto">
+                                <a href="{% url 'collaborate:discussion' id=request.id %}" class="btn btn-primary w-100">
+                                    Open Discussion space
+                                </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center p-5 bg-light rounded shadow-sm">
+            <h4>No collaboration projects yet.</h4>
+            <p>Start a new project to invite collaborators and discuss your ideas.</p>
+            <a href="{% url 'collaborate:collab' %}" class="btn btn-success mt-3">Create New Project</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

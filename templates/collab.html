@@ -1,0 +1,72 @@
+{% include 'navbar.html' %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<!-- Collaboration Intro & Testimonials -->
+<div class="container my-5">
+    <div class="p-5 shadow-lg rounded bg-white">
+        <p class="lead text-center mb-4">
+            Collaborate with talented developers and grow your ideas into real projects.
+            Fill out the form below to request a collaboration and connect with the community.
+        </p>
+
+        <!-- Testimonials Section -->
+        <h4 class="text-center fw-bold mb-4">What Our Collaborators Say</h4>
+        <div class="row g-4">
+
+            <!-- Testimonial 1 -->
+            <div class="col-md-6">
+                <div class="p-4 border rounded shadow-sm h-100">
+                    <p class="fst-italic">"Working with this platform allowed me to connect with highly skilled developers. The project outcome exceeded my expectations!"</p>
+                    <h6 class="fw-bold mb-0">– Alex Johnson, Developer</h6>
+                    <small class="text-muted">Full-stack project collaboration</small>
+                </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="col-md-6">
+                <div class="p-4 border rounded shadow-sm h-100">
+                    <p class="fst-italic">"I got timely support and guidance from experts. The collaborative environment made my learning and development process much smoother."</p>
+                    <h6 class="fw-bold mb-0">– Maria Lee, Software Engineer</h6>
+                    <small class="text-muted">Expert mentorship</small>
+                </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="col-md-6">
+                <div class="p-4 border rounded shadow-sm h-100">
+                    <p class="fst-italic">"The platform connects you with real developers who provide practical insights. Highly recommended for anyone wanting to grow their project."</p>
+                    <h6 class="fw-bold mb-0">– Rahul Verma, Startup Founder</h6>
+                    <small class="text-muted">Startup collaboration</small>
+                </div>
+            </div>
+
+            <!-- Testimonial 4 -->
+            <div class="col-md-6">
+                <div class="p-4 border rounded shadow-sm h-100">
+                    <p class="fst-italic">"Amazing community and workflow. I was able to learn new skills while contributing to real projects."</p>
+                    <h6 class="fw-bold mb-0">– Sophie Carter, Frontend Developer</h6>
+                    <small class="text-muted">Community project</small>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Collaboration Request Form -->
+<div class="container my-5">
+    <div class="p-5 shadow-lg rounded bg-white">
+        <h3 class="text-center mb-4">Create a New Collaboration Request</h3>
+        <form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="receiver_id" value="{{ request.GET.receiver_id }}">
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Send Request</button>
+</form>
+
+    </div>
+</div>
+
+{% endblock %}

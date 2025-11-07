@@ -1,0 +1,45 @@
+{% include 'navbar.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center mb-5"> I am stuck with syntaxes and concepts. Can you help me? ..or if you want to help someone,you are in a right place</h2>
+    <div class="row g-4 justify-content-center">
+
+        <!-- Student Card -->
+        <div class="col-md-4">
+            <div class="card p-3">
+                <div class="card-body">
+                    <h5 class="card-title">code Help</h5>
+                    <p class="card-text">Get help with coding doubts, syntaxes, and concepts tailored for students.</p>
+                    <a href="{% url 'sharing:questions' %}" class="btn btn-custom">Submit your need here</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Developer Card -->
+        <div class="col-md-4">
+            <div class="card p-3">
+                <div class="card-body">
+                    <h5 class="card-title">Developer's Help</h5>
+                    <p class="card-text">guidance,answers from developers,or are you a developer to help others</p>
+                    <a href="{% url 'sharing:answers' %}" class="btn btn-custom">Give the answers</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expert Card -->
+        <div class="col-md-4">
+            <div class="card p-3">
+                <div class="card-body">
+                    <h5 class="card-title">Join our Experts team </h5>
+                    <p class="card-text">Experts provide solutions, code snippets, and explanations for complex problems.</p>
+                    <a href="{% url 'collaborate:experts' %}" class="btn btn-custom">Go to Expert Page</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

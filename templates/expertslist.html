@@ -1,0 +1,88 @@
+{% include 'navbar.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container my-5">
+    <!-- Intro Paragraph -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Meet Our Expert Professionals</h2>
+        <p class="lead">
+            Our experts are highly skilled professionals, offering guidance and solutions for projects and companies.
+            They generously share their knowledge and experience to help you succeed. Connect with them to leverage their expertise.
+        </p>
+    </div>
+
+```
+<!-- Expert Cards Grid -->
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for expert in experts %}
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+            <!-- Profile Image -->
+            {% if expert.profile_image %}
+            <img src="{{ expert.profile_image.url }}" class="card-img-top" alt="{{ expert.full_name }}" style="height: 220px; object-fit: cover;">
+            {% else %}
+            <img src="{% static 'default-profile.png' %}" class="card-img-top" alt="Default Image" style="height: 220px; object-fit: cover;">
+            {% endif %}
+
+            <!-- Card Body -->
+            <div class="card-body">
+                <h5 class="card-title fw-bold">{{ expert.full_name }}</h5>
+
+                {% if expert.designation %}
+                <p class="card-text"><strong>Designation:</strong> {{ expert.designation }}</p>
+                {% endif %}
+
+                {% if expert.bio %}
+                <p class="card-text"><strong>Bio:</strong> {{ expert.bio|truncatewords:25 }}</p>
+                {% endif %}
+
+                {% if expert.skill %}
+                <p class="card-text"><strong>Skills:</strong> {{ expert.skill }}</p>
+                {% endif %}
+
+                {% if expert.experience %}
+                <p class="card-text"><strong>Experience:</strong> {{ expert.experience }}</p>
+                {% endif %}
+
+                {% if expert.email_id %}
+                <p class="card-text"><strong>Email:</strong> <a href="mailto:{{ expert.email_id }}">{{ expert.email_id }}</a></p>
+                {% endif %}
+
+                {% if expert.contact %}
+                <p class="card-text"><strong>Contact No:</strong> {{ expert.contact }}</p>
+                {% endif %}
+
+                {% if expert.available %}
+                <p class="card-text"><strong>Available:</strong> {{ expert.available|yesno:"Yes,No" }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Card Footer -->
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                {% if expert.linkedin %}
+                <a href="{{ expert.linkedin }}" target="_blank" class="btn btn-outline-primary btn-sm">LinkedIn</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-center">No experts found at the moment.</p>
+    {% endfor %}
+</div>
+```
+
+</div>
+
+<!-- Optional Hover Animation -->
+
+<style>
+.card:hover {
+    transform: translateY(-5px);
+    transition: 0.3s;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+</style>
+
+{% endblock %}

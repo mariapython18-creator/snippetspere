@@ -1,0 +1,85 @@
+{% include 'navbar.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!-- Intro Section with Cards -->
+<div class="container py-5" style="background: linear-gradient(135deg, #f0f4ff, #dfe9f3);">
+  <div class="text-center mb-5" style="max-width: 800px; margin: auto;">
+    <h2 class="fw-bold text-primary mb-2">Welcome to Our Community!</h2>
+    <p class="text-secondary mb-0">
+      Are you looking to share your ideas, connect with fellow developers, review code, or collaborate on projects?
+      Join us today and be part of an engaging and supportive environment where your contributions matter.
+    </p>
+  </div>
+
+  <!-- Three Cards Section -->
+  <div class="row text-center g-4 mt-4">
+    <!-- Card 1 -->
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h1 class="display-4 text-primary">100+</h1>
+          <h5 class="card-title">Happy Customers</h5>
+          <p class="card-text">We have delivered solutions to over 100 satisfied customers worldwide.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h1 class="display-4 text-success">500+</h1>
+          <h5 class="card-title">Students Helped</h5>
+          <p class="card-text">Providing easy-to-understand solutions and guidance to hundreds of students.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h1 class="display-4 text-warning">50+</h1>
+          <h5 class="card-title">Projects Completed</h5>
+          <p class="card-text">Successfully completed over 50 real-world projects for students and clients.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Form Section -->
+<div class="container py-5" style="background: linear-gradient(135deg, #f0f4ff, #dfe9f3); margin-top: 50px;">
+  <div class="card shadow-lg border-0 rounded-4 mx-auto" style="max-width: 800px; width: 100%;">
+    <div class="card-body p-4 p-md-5">
+
+      <!-- Header inside Form -->
+      <div class="text-center mb-4">
+        <h3 class="fw-bold text-primary mb-1">Submit Here</h3>
+        <p class="text-muted mb-0">Join our community today</p>
+      </div>
+
+      <!-- Form Section -->
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary w-100 mt-4 py-2 fw-semibold shadow-sm">
+          Submit
+        </button>
+      </form>
+
+      <!-- Footer Note -->
+      <div class="text-center mt-4">
+        <small class="text-muted">
+          By submitting, you agree to contribute positively and respectfully to our community.
+        </small>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

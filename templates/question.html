@@ -1,0 +1,48 @@
+{% include 'navbar.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container py-5 d-flex flex-column align-items-center"
+     style="min-height: 100vh; background: linear-gradient(135deg, #f0f4ff, #dfe9f3);">
+
+  <!-- Intro Paragraph -->
+  <div class="text-center mb-5" style="max-width: 800px;">
+    <h2 class="fw-bold text-primary mb-2">Welcome to Our Community!</h2>
+    <p class="text-secondary mb-0">
+      Are you looking  connect with fellow developers, review code, or collaborate on projects?
+      Join us today and be part of an engaging and supportive environment where your contributions matter.
+    </p>
+  </div>
+
+  <!-- Form Card -->
+  <div class="card shadow-lg border-0 rounded-4"
+       style="max-width: 800px; width: 100%;">
+
+    <div class="card-body p-4 p-md-5">
+
+      <!-- Header inside Form -->
+      <div class="text-center mb-4">
+        <h3 class="fw-bold text-primary mb-1">Submit Here</h3>
+      </div>
+
+      <!-- Form Section -->
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary w-100 mt-4 py-2 fw-semibold shadow-sm">
+          Submit
+        </button>
+      </form>
+
+      <!-- Footer Note -->
+      <div class="text-center mt-4">
+        <small class="text-muted">
+          By submitting, you agree to contribute positively and respectfully to our community.
+        </small>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

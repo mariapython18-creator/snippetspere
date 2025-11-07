@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Python Compiler</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.0/ace.js" crossorigin="anonymous"></script>
+    <style>
+        #editor {
+            height: 400px;
+            width: 100%;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container my-5">
+    <h2 class="mb-3 text-center"> Online Compiler</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <div id="editor"></div>
+        <textarea name="code" id="code" style="display:none;">{{ code|default:"print('Hello World')" }}</textarea>
+        <button type="submit" class="btn btn-primary mt-3">Run Code</button>
+    </form>
+
+    {% if output %}
+    <h4 class="mt-4">Output:</h4>
+    <pre>{{ output }}</pre>
+    {% endif %}
+
+    {% if error %}
+    <h4 class="mt-4 text-danger">Errors:</h4>
+    <pre>{{ error }}</pre>
+    {% endif %}
+</div>
+
+<script>
+    // Initialize Ace Editor
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/python");
+    editor.setTheme("ace/theme/monokai");
+    editor.setOptions({
+        fontSize: "14px",
+        showPrintMargin: false,
+        wrap: true,
+    });
+
+    // Load saved or default code
+    var savedCode = document.getElementById("code").value;
+    editor.setValue(savedCode, -1);  // -1 keeps cursor at start
+
+    // Update hidden textarea before submitting form
+    document.querySelector("form").addEventListener("submit", function () {
+        document.getElementById("code").value = editor.getValue();
+    });
+</script>
+<!-- Reviewer Code Section with Links -->
+<section class="bg-light py-5">
+  <div class="container">
+    <!-- Section Heading -->
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Reviewe Your Code</h2>
+      <p class="lead text-muted">Check your code quality with these universal tips before submitting. Explore our tutorials to learn more!</p>
+    </div>
+
+    <!-- Review Tips -->
+    <div class="row g-4">
+
+      <!-- Tip 1 -->
+      <div class="col-md-6">
+        <div class="p-4 border rounded shadow-sm h-100">
+          <h5 class="text-primary">1. Code Readability</h5>
+          <p>
+            Use meaningful variable names, proper indentation, and consistent formatting.
+            <a href="https://www.youtube.com/" target="_blank" class="text-decoration-none fw-bold">Watch tutorial</a> to see examples of clean code.
+          </p>
+        </div>
+      </div>
+
+      <!-- Tip 2 -->
+      <div class="col-md-6">
+        <div class="p-4 border rounded shadow-sm h-100">
+          <h5 class="text-success">2. Comment Your Code</h5>
+          <p>
+            Add useful comments to explain complex logic. Avoid obvious comments.
+            <a href="https://www.example.com" target="_blank" class="text-decoration-none fw-bold">Learn best commenting practices</a>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Tip 3 -->
+      <div class="col-md-6">
+        <div class="p-4 border rounded shadow-sm h-100">
+          <h5 class="text-warning">3. Test Your Code</h5>
+          <p>
+            Test your code with different cases, including edge scenarios.
+            <a href="https://www.youtube.com/" target="_blank" class="text-decoration-none fw-bold">See testing examples</a>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Tip 4 -->
+      <div class="col-md-6">
+        <div class="p-4 border rounded shadow-sm h-100">
+          <h5 class="text-danger">4. Optimize for Performance</h5>
+          <p>
+            Use efficient algorithms and data structures. Reduce unnecessary computations.
+            <a href="https://www.example.com" target="_blank" class="text-decoration-none fw-bold">Explore optimization tutorials</a>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Tip 5 -->
+      <div class="col-12">
+        <div class="p-4 border rounded shadow-sm h-100">
+          <h5 class="text-info">5. Follow Best Practices</h5>
+          <p>
+            Stick to coding standards, naming conventions, and organized file structures.
+            <a href="https://www.youtube.com/" target="_blank" class="text-decoration-none fw-bold">Watch full coding best practices series</a>.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Call-to-Action Button -->
+    <div class="text-center mt-5">
+      <a href="https://www.youtube.com/" target="_blank" class="btn btn-primary btn-lg shadow-sm">
+        Explore Our Tutorials on YouTube
+      </a>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>

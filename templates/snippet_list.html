@@ -1,0 +1,37 @@
+{% include 'navbar.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container my-5">
+    <h2 class="text-center mb-4 fw-bold">All Submitted Snippets</h2>
+
+    {% if user.is_authenticated %}
+    <div class="text-end mb-3">
+        <a href="{% url 'sharing:snippet' %}" class="btn btn-success">+ Add New Snippet</a>
+    </div>
+    {% endif %}
+
+    {% for snippet in snippets %}
+    <div class="card mb-4 shadow-sm border-0">
+        <div class="card-body">
+            <h5 class="card-title">{{ snippet.name }}</h5>
+            <p><strong>Email:</strong> {{ snippet.email }}</p>
+            {% if snippet.Comment %}
+            <p><strong>Comment:</strong> {{ snippet.Comment }}</p>
+            {% endif %}
+
+            {% if snippet.code %}
+            <p><a href="{{ snippet.code.url }}" target="_blank" class="btn btn-outline-primary btn-sm">View Code</a></p>
+            {% endif %}
+
+            <div class="d-flex justify-content-end">
+                <a href="{% url 'sharing:snippet_edit' snippet.id %}" class="btn btn-outline-secondary btn-sm me-2">Edit</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-center">No snippets submitted yet.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

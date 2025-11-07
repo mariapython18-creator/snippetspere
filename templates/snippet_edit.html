@@ -1,0 +1,18 @@
+{% include 'navbar.html' %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container my-5">
+    <h2 class="text-center mb-4 fw-bold">Edit Snippet</h2>
+
+    <form method="post" enctype="multipart/form-data" class="card p-4 shadow-sm border-0">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="text-center mt-3">
+            <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+            <a href="{% url 'sharing:snippet_list' %}" class="btn btn-secondary px-4">Cancel</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
